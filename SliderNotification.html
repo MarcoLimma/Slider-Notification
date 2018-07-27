@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Slider Notification</title>
+  <link rel="stylesheet" href="jquery-ui.css">
+  <script src="jquery-1.12.4.js"></script>
+  <script src="jquery-ui.js"></script>
+  <script src="jquery.ui.touch-punch.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <script>
+    $( function() {
+
+        let sliderElement = $("#draggable");
+        let parentElement = $("#snaptarget"); 
+        let currentPosition = 0;
+        let boxSize = 80;
+        let getCurrentPosition = () => sliderElement.css('left');
+        const startPosition = -1;
+        const endPosition = $('#draggable').width() * 0.85;
+        
+        sliderElement.draggable({
+            axis: "x", 
+            drag: function() {
+                currentPosition = getCurrentPosition().replace('px', '');
+            },
+            stop: function() {
+                if(currentPosition <= startPosition + boxSize){
+                    sliderElement.animate({left: startPosition}, 400);
+                } else if(currentPosition >= startPosition + boxSize && currentPosition < endPosition){
+                    sliderElement.animate({left: startPosition + boxSize}, 200,);
+                } else if(currentPosition >= endPosition ){
+                    parentElement.fadeOut();
+                }
+            }
+        });
+    } );
+  </script>
+</head>
+<body>
+    <div id="snaptarget" class="ui-widget-header">
+        <div id="draggable-bg" class="draggable-bg ui-widget-content-bg">
+        </div> 
+        <div id="draggable" class="draggable ui-widget-content">
+        </div> 
+    </div>
+    <br style="clear:both">
+</body>
+</html>
